@@ -1,11 +1,12 @@
-setwd("/Users/takayukitamura/Documents/R_Computing/us_rates")
+setwd("/Users/takayukitamura/Documents/R_Computing/rates_mortgage")
 library(tidyverse)
 library(scales)
 library(ggtext)
 library(glue)
 
-rates_m30  <- read.csv("/Users/takayukitamura/Documents/R_Computing/us_rates/data/us_10y_30y.csv") %>% 
+rates_m30  <- read.csv("data/us_10y_30y.csv") %>% 
   rename(treasury10 = long_term_yield, mortgage30 = mortgage_rate)
+
 rates_m30 <- rates_m30[-c(2786:2840), ]
 
 df_rates <- rates_m30 %>% 
@@ -73,7 +74,7 @@ df_rates %>%
                      values = c("blue", "red")) +
   labs(x = NULL,
        y = "Interest Rate(%)",
-       caption = "Freddie Mac, FRED",
+       caption = "Freddie Mac, FRED, by Takayuuki Tamura",
        title = glue("Average 30_Year mortgage rate {latest_mortgage_rate_status} to {latest_mortgage_rate}% in this week"),
        subtitle =
        "-Reflecting heightening market expectations for Fed's rate cuts, 99.7% of markets expectiong 25bps of cut on Sep 17 and 45% expecting the Fed rate down to 3.5-3.75% or .75% cuts toward end-2025") +
