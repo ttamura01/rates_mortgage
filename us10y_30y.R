@@ -1,12 +1,12 @@
 library(tidyverse)
 library(glue)
-t_note <- read.csv("/Users/takayukitamura/Documents/R_Computing/US10&MG30/ust_10.csv") %>% 
+t_note <- read.csv("data/us_10y_30y.csv") %>% 
   rename_all(tolower) %>% 
-  rename(yld_10y = dgs10) %>% 
+  select(date, yld_10y = long_term_yield) %>% 
   separate(date, sep = "-", into = c("year", "month", "day")) %>% 
   group_by(year, month) 
 
-t_note$yld_10y <- as.numeric(t_note$yld_10y)
+# t_note$yld_10y <- as.numeric(t_note$yld_10y)
 sapply(t_note, class)
 
 t_note_m <- t_note %>%
@@ -19,9 +19,9 @@ tail(t_note_m)
 sapply(t_note, class)  
   
 tail(t_note)  
-cpi_ccpi <- read.csv("/Users/takayukitamura/Documents/R_Computing/cpi_treasury/cpi_ccpi_03_2024.csv") %>% 
-  select(-X) %>% 
-  separate(date, sep="-", into = c("year", "month", "day")) %>% 
+cpi_ccpi <- read.csv("/Users/takayukitamura/Documents/R_Computing/cpi_treasury/data/cpi_ccpi_03_2024.csv") %>%  
+  # select(-X) %>% 
+  separate(date, sep="-", into = c("year", "month", "day")) %>%
   mutate(month = ymd(glue("{year}-{month}-01")))
 tail(cpi_ccpi)
 sapply(cpi_ccpi, class)
