@@ -1,10 +1,10 @@
-setwd("/Users/takayukitamura/Documents/R_Computing/us_rates")
+setwd("/Users/takayukitamura/Documents/R_Computing/rates_mortgage")
 library(tidyverse)
 library(scales)
 library(ggtext)
 library(glue)
 
-rates_m30 <- read.csv("/Users/takayukitamura/Documents/R_Computing/us_10y_30y.csv") %>% 
+rates_m30 <- read.csv("data/us_10y_30y.csv") %>% 
   rename("treasury10" = long_term_yield, "mortgage30" = mortgage_rate) %>% 
   na.omit()
 
@@ -114,7 +114,7 @@ ggsave("10y_30m_rate_cut.png", height = 6, width = 6)
 
 ##########################################################################################
 #Flexible time span
-rates_m30 <- read_csv("/Users/takayukitamura/Documents/R_Computing/us_rates/data/us_10y_30y.csv") %>% tail()
+rates_m30 <- read_csv("data/us_10y_30y.csv")
 
 # rates_m30$date <- as.Date(rates_m30$date, format = "%Y-%m-%d")
 
