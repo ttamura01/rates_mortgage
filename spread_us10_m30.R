@@ -1,4 +1,4 @@
-setwd("/Users/takayukitamura/Documents/R_Computing/us_rates")
+setwd("/Users/takayukitamura/Documents/R_Computing/rates_mortgage")
 library(tidyverse)
 library(scales)
 library(ggtext)
