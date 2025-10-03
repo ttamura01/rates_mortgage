@@ -1,4 +1,4 @@
-setwd("/Users/takayukitamura/Documents/R_Computing/us_rates")
+setwd("/Users/takayukitamura/Documents/R_Computing/rates_mortgage")
 # Install/load required packages
 library(tidyverse)
 library(lubridate)
@@ -10,7 +10,7 @@ library(fredr)
 fredr_set_key("0c5fd2514c7d98427fe3c931e2fcb244")
 
 treasury_10y <- fredr(series_id = "DGS10") %>% 
-  select(date, "long_term_yield" = value) %>% tail()
+  select(date, "long_term_yield" = value) 
   # filter(date >= "2023-01-01")
 
 head(treasury_10y)
@@ -19,7 +19,7 @@ tail(treasury_10y)
 # treasury_10y <- treasury_10y[-708,]
 
 updates <- tribble(~date, ~long_term_yield,
-                   "2025-09-26", 4.176)
+                   "2025-10-02", 4.102)
 
 updates$date <- as.Date(updates$date)
 
@@ -45,6 +45,8 @@ tail(mortgage_30y)
 
 ds_10y_30y <- treasury_10y %>% 
   left_join(mortgage_30y, by = "date") 
+
+write_csv(ds_10y_30y,"data/us_10y_30y.csv")
 
 # 
 # read_csv("us_10y_30y.csv")
@@ -72,8 +74,6 @@ ds_10y_30y <- ds_10y_30y %>%
     long_term_yield = zoo::na.locf(long_term_yield, na.rm = FALSE),
     mortgage_rate   = zoo::na.locf(mortgage_rate,   na.rm = FALSE)
   )
-
-write_csv(ds_10y_30y,"/Users/takayukitamura/Documents/R_Computing/us_rates/data/us_10y_30y.csv")
 
 ds_10y_30y$latest_data <- if_else(ds_10y_30y$date == max(ds_10y_30y$date), TRUE, FALSE) 
 
