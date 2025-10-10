@@ -4,7 +4,7 @@ library(scales)
 library(ggtext)
 library(glue)
 
-rates_m30  <- read.csv(data/"us_10y_30y.csv") %>% 
+rates_m30  <- read_csv("data/us_10y_30y.csv") %>% 
   rename(treasury10 = long_term_yield, mortgage30 = mortgage_rate)
 
 rates_m30 <- rates_m30[-c(2786:2840), ]

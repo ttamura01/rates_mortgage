@@ -10,7 +10,7 @@ library(fredr)
 fredr_set_key("0c5fd2514c7d98427fe3c931e2fcb244")
 
 ## download data from csv file
-rates <- read.csv("/Users/takayukitamura/Documents/R_Computing/us_10y_30y.csv") %>% 
+rates <- read.csv("data/us_10y_30y.csv") %>% 
   rename("treasury10" = long_term_yield, "mortgage30" = mortgage_rate) %>% 
   na.omit()
 
