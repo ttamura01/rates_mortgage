@@ -19,7 +19,7 @@ tail(treasury_10y)
 # treasury_10y <- treasury_10y[-708,]
 
 updates <- tribble(~date, ~long_term_yield,
-                   "2025-10-09", 4.144)
+                   "2025-10-23", 4.005)
 
 updates$date <- as.Date(updates$date)
 
@@ -33,12 +33,13 @@ mortgage_30y <- fredr(series_id = "MORTGAGE30US") %>%
 
 tail(mortgage_30y)
 
-updates <- tribble(~date, ~mortgage_rate,
-                   "2025-09-19", 6.26)
+# updates <- tribble(~date, ~mortgage_rate,
+#                    "2025-10-23", 6.26)
 
 updates$date <- as.Date(updates$date)
 
 mortgage_30y <- rbind(mortgage_30y, updates)
+mortgage_30y <- mortgage_30y[4848,]
 
 head(mortgage_30y)
 tail(mortgage_30y)
@@ -106,7 +107,7 @@ ds_10y_30y %>%
   coord_cartesian(clip = "off", expand = TRUE) +
   scale_y_continuous(limits = c(NA, NA),
                      labels = label_comma(accuracy = 0.1)) + 
-  labs(title = "10-Year Treasury Yild and 30-Year Mortgage Rate",
+  labs(title = "10-Year Treasury Yeild and 30-Year Mortgage Rate",
        caption = "source: FRED, WSJ, by Takayuki Tamura",
        x = NULL,
        y = "percentage") +
