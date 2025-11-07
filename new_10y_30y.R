@@ -90,6 +90,12 @@ ds_10y_30y %>%
   ggplot(aes(x = date)) +
   geom_line(aes(y = long_term_yield, colour = "10-Year Yield"), color = "#0136b2") +
   geom_line(aes(y = mortgage_rate, colour = "30-Year Mortgage"), color = "#f85033") +
+  geom_vline(xintercept = as.Date("2025-09-17"), linetype = "dashed", colour = "black") +
+  annotate("text",
+           x = as.Date("2025-09-17"),
+           y = 7.75,
+           label = "Rate-cut\n(9/17/25)", size = 5, colour = "black", fontface = "bold",
+           hjust = 0.5, vjust = 0.85) +
   annotate("text",
            x = latest_date,
            y = (latest_10_y) * 0.965,
