@@ -19,7 +19,7 @@ tail(treasury_10y)
 # treasury_10y <- treasury_10y[-708,]
 
 updates <- tribble(~date, ~long_term_yield,
-                   "2025-12-04", 4.102)
+                   "2025-12-11", 4.161)
 
 updates$date <- as.Date(updates$date)
 
