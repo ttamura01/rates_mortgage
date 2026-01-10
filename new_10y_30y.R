@@ -47,6 +47,8 @@ tail(mortgage_30y)
 ds_10y_30y <- treasury_10y %>% 
   left_join(mortgage_30y, by = "date") 
 
+tail(ds_10y_30y)
+
 write_csv(ds_10y_30y,"data/us_10y_30y.csv")
 
 # 
