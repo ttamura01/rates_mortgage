@@ -232,22 +232,37 @@ rates$period <- cut(rates$year,
                     breaks = c(1970, 2008, 2009, 2019, 2024, 2025),
                     labels = c("1971-2008", "2009-2019", "2020-2021", "2022-2024", "2025"))
 
-d <- ggplot(rates, aes(x = period, y = spread, fill = period)) +
+rates %>% 
+  drop_na(period) %>% 
+  ggplot(aes(x = period, y = spread, fill = period)) + 
   geom_boxplot(show.legend = FALSE) +
   # facet_wrap(~period) +
   scale_y_continuous(limits = c(-0.5, 6),
                      breaks = seq(0, 6, 2),
                      labels = label_comma(accuracy = 0.1)) +
-  labs(x = NULL,
-       y = "spread")
-
-
-d +  labs(title = "30 years mortgage yield spread over 10 years treasuary notes",
+  labs(title = "30 years mortgage yield spread over 10 years treasuary notes",
           subtitle = "The spread widened since 2022, with unwinding of MBS by Fed?", 
           y = "spread",
           x = NULL) +
   theme(plot.title.position = "plot",
         plot.subtitle = element_text(face = "italic"))
+
+# d <- ggplot(rates, aes(x = period, y = spread, fill = period)) +
+#   geom_boxplot(show.legend = FALSE) +
+#   # facet_wrap(~period) +
+#   scale_y_continuous(limits = c(-0.5, 6),
+#                      breaks = seq(0, 6, 2),
+#                      labels = label_comma(accuracy = 0.1)) +
+#   labs(x = NULL,
+#        y = "spread")
+# 
+# 
+# d +  labs(title = "30 years mortgage yield spread over 10 years treasuary notes",
+#           subtitle = "The spread widened since 2022, with unwinding of MBS by Fed?", 
+#           y = "spread",
+#           x = NULL) +
+#   theme(plot.title.position = "plot",
+#         plot.subtitle = element_text(face = "italic"))
 
 ggsave("figures/boxplots of spread indicating some impacts from Fed's MBS unwinding.png", width = 5, height = 4)
 

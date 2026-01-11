@@ -417,7 +417,7 @@ rates %>%
        caption = "Source: FRED(Federal Reserve Economic Data by St.Louis FED), WSJ, by Takayuki Tamura",
        x="10_Year Treasury Rate (%)",
        y="30-Year Fixed Mortgage Rate(%)") +
-  theme_classic() +
+  theme_minimal() +
   theme(
     plot.title.position = "plot",
     plot.title = element_textbox_simple(size = 16, face = "bold"),
