@@ -2,6 +2,7 @@ library(tidyverse)
 library(lubridate)
 library(scales)
 library(fredr)
+library(ggtext)
 
 fredr_set_key("0c5fd2514c7d98427fe3c931e2fcb244")
 
@@ -96,10 +97,18 @@ df_share <- df %>%
 ggplot(df_share, aes(date, share, fill = sector)) +
   geom_area() +
   scale_y_continuous(labels = percent) +
+  coord_cartesian(clip = "off") +
   labs(title = "US Agency MBS / GSE-Backed Securities Ownership Share",
        subtitle = "Share of total outstanding by sector (quarterly)",
        x = NULL, y = "Share of total",
        fill = NULL,
        caption = "Source: Federal Reserve Financial Accounts (Z.1) Table L.211 via FRED by Takayuki Tamura") +
   theme_minimal(base_size = 12) +
-  theme(legend.position = "bottom")
+  theme(
+    plot.title.position = "plot",
+    plot.title = element_textbox_simple(size = 24, face = "bold"),
+    legend.position = "bottom",
+    legend.key.size = element_rect(size = 1)
+        )
+
+ggsave("us_mbs_ownership.png", width = 6, height = 6)
