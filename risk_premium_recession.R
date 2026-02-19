@@ -175,7 +175,6 @@ spread_comp <- avg_rates %>%
   select(date, spread, high_yield) %>% 
   pivot_longer(-date, names_to = "assets", values_to = "spread")
 
-
 p <- spread_comp %>% 
   na.omit() %>% 
   ggplot(aes(x = date, y = spread, colour = assets))+
@@ -278,3 +277,50 @@ p1 <-   ggplot() +
 
 p / p1 + plot_layout(heights = c(4, 1))
 
+p <- ggplot() +
+  
+  # recession shading
+  geom_rect(data = recession_df,
+            aes(xmin = start, xmax = end,
+                ymin = -Inf, ymax = Inf),
+            fill = "gray70", alpha = 0.4) +
+  
+  # Fed balance sheet
+  geom_line(data = spread_comp,
+            aes(x = date, y = spread, colour = assets),
+            show.legend = F,
+            linewidth = 1) +
+  
+  annotate(geom = "text",
+           x = as.Date("2015-01-01"),
+           y = 10.0,
+           label = "high yield bond",
+           color = "blue",
+           fontface = "italic",
+           hjust = 0.5) +
+  annotate(geom = "text",
+           x = as.Date("2015-01-01"),
+           y = 2.75,
+           label = "30-Year mortgage",
+           color = "red",
+           fontface = "italic",
+           hjust = 0.5) +
+  
+  scale_color_manual(values = c("blue","red")) +
+  
+  scale_y_continuous(
+    labels = label_number_auto(),
+    name = "Risk Premium (%)"
+  ) +
+  
+  labs(
+    title = "Risk Premium of HY-Bonds & Mortgage vs Recessions",
+    subtitle = "WALCL with NBER recession shading",
+    caption = "Source: FRED, by Takayuki Tamura"
+  ) +
+  
+  theme_bw(base_size = 14) +
+  theme(panel.grid = element_blank(),
+        legend.position = c("2015-01-01", 15))
+
+p / p1 + plot_layout(heights = c(4, 1))
