@@ -15,19 +15,14 @@ fredr_set_key("0c5fd2514c7d98427fe3c931e2fcb244")
 ## download data from csv file
 rates <- read.csv("data/us_10y_30y.csv") %>% 
   rename("treasury10" = long_term_yield, "mortgage30" = mortgage_rate) %>% 
-  na.omit()
+  drop_na()
 
+head(rates)
 tail(rates)
 
-## add the rarest data 
-# updates <- tribble(~date, ~mortgage30, ~treasury10,
-#                    "2024-12-26", 6.85, 4.58)
-
-##Combine the two data
-# rates <- rbind(rates, updates)
-rates$date <- as.Date(rates$date, format = "%Y-%m-%d")
 sapply(rates, class)
 
+rates$date <- as.Date(rates$date, format = "%Y-%m-%d")
 ## Add spread to the data frame
 spread <- rates$mortgage30 - rates$treasury10
 
@@ -157,6 +152,7 @@ long_data %>%
 
 ggsave("figures/us_30y_10y_spread.png", height = 6, width = 6)  
 
+## adding high yield spread
 high_yld <- fredr(series_id = "BAMLH0A0HYM2") %>% 
   select(date, high_yield = value)
 
@@ -181,11 +177,11 @@ p <- spread_comp %>%
   geom_line(show.legend = FALSE) +
   geom_hline(yintercept = avg_spread, color = "red", linetype = "dashed") +
   geom_hline(yintercept = avg_high_yield, color = "blue", linetype = "dashed") +
-  annotate("label",
+  annotate("text",
            x = as.Date("2015-01-01"),
            y = 7,
            label = "High-Yield Spread") +
-  annotate("label",
+  annotate("text",
            x = as.Date("2015-01-01"),
            y = 2.5,
            label = "30-Year Mortgage Spread") +
@@ -208,8 +204,7 @@ p <- spread_comp %>%
 p
 ggsave("figures/us_30y_hi_yield_spread.png", height = 6, width = 6)  
 
-
-  
+  ## Fed balancesheet & recession
   # Set FRED API key if needed
   # fredr_set_key("your_api_key_here")
   
@@ -277,6 +272,7 @@ p1 <-   ggplot() +
 
 p / p1 + plot_layout(heights = c(4, 1))
 
+# adding recession on the p
 p <- ggplot() +
   
   # recession shading
@@ -324,3 +320,5 @@ p <- ggplot() +
         legend.position = c("2015-01-01", 15))
 
 p / p1 + plot_layout(heights = c(4, 1))
+
+
