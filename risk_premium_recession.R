@@ -83,7 +83,7 @@ long_data <- long_data %>%
 
 ##historical yields and spread
 long_data %>% 
-  filter(date >= as.Date("1971-01-01")) %>% 
+  filter(date >= as.Date(initial_date)) %>% 
   ggplot(aes(x =date, y = percentage, color = yield)) +
   geom_line(show.legend = TRUE) +
   geom_hline(yintercept = 1.66, color = "#0DE4C1") +
