@@ -77,4 +77,4 @@ ds_10y_30y %>%
     panel.grid.minor.y = element_line(colour = "gray90", linewidth = 0.3, linetype = "dashed"),
     plot.margin = margin_auto(10, 10))
 
-ggsave("tnote_mortgage_spread.png", width = 6, height = 6)
+ggsave("tnote_mortgage_spread.png", width = 6, height = 5)

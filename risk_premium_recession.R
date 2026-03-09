@@ -159,7 +159,7 @@ high_yld <- fredr(series_id = "BAMLH0A0HYM2") %>%
 avg_rates <- rates %>% 
   select(date, spread) %>% 
   left_join(., high_yld, by = "date") %>% 
-  filter(date >= "2005-12-31") %>% 
+  filter(date >= "2019-12-31") %>% 
   mutate(avg_spread = mean(spread, na.rm = TRUE), avg_high_yield = mean(high_yield, na.rm = TRUE)) 
 
 avg_spread <- round(avg_rates$avg_spread, 3)
@@ -175,23 +175,26 @@ p <- spread_comp %>%
   na.omit() %>% 
   ggplot(aes(x = date, y = spread, colour = assets))+
   geom_line(show.legend = FALSE) +
-  geom_hline(yintercept = avg_spread, color = "red", linetype = "dashed") +
-  geom_hline(yintercept = avg_high_yield, color = "blue", linetype = "dashed") +
-  annotate("text",
-           x = as.Date("2015-01-01"),
+  # geom_hline(yintercept = avg_spread, color = "red", linetype = "dashed") +
+  # geom_hline(yintercept = avg_high_yield, color = "blue", linetype = "dashed") +
+  geom_vline(xintercept = as.Date("2025-09-17"), colour = "blue", linetype = "dashed") +
+  annotate("label",
+           x = as.Date("2020-01-01"),
            y = 7,
-           label = "High-Yield Spread") +
-  annotate("text",
-           x = as.Date("2015-01-01"),
+           label = "High-Yield Spread",
+           hjust = 0) +
+  annotate("label",
+           x = as.Date("2020-01-01"),
            y = 2.5,
-           label = "30-Year Mortgage Spread") +
+           label = "30-Year Mortgage Spread",
+           hjust = 0) +
   scale_color_manual(breaks = c("spread", "high_yield"),
                      values = c("red", "blue")
   ) +
   scale_y_continuous(limits = c(0, NA),
                      breaks = seq(0, 20, 5),
                      labels = label_comma(accuracy = 0.1)) +
-  labs(title = "US 30-Year Mortgage and US High-Yield Bonds yield spread over 10-year treasury notes",
+  labs(title = "Mortgage spreads move with credit risk",
        subtitle = "The BAML High-Yield OAS(Option-Adjusted Spread) already compressed to the Post-GFC low",
        caption = "FRED(Federal Reserve Economic Data), WSJ, by Takayuki Tamura",
        x = NULL, y = NULL) +
