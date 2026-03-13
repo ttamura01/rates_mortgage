@@ -19,7 +19,7 @@ tail(treasury_10y)
 # treasury_10y <- treasury_10y[-708,]
 
 updates <- tribble(~date, ~long_term_yield,
-                   "2026-03-05", 4.140)
+                   "2026-03-12", 4.269)
 
 updates$date <- as.Date(updates$date)
 
@@ -84,7 +84,6 @@ latest_data <- ds_10y_30y %>% slice_tail(n = 1)
 latest_date <- latest_data$date    
 latest_10_y <- latest_data$long_term_yield 
 latest_mortgage_rate <- latest_data$mortgage_rate
-
 
 ds_10y_30y %>% 
   na.omit() %>% 

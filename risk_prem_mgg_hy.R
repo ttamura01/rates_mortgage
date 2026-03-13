@@ -16,6 +16,7 @@ rates <- read.csv("data/us_10y_30y.csv") %>%
   rename("treasury10" = long_term_yield, "mortgage30" = mortgage_rate) %>% 
   na.omit()
 
+head(rates)
 tail(rates)
 
 ## add the rarest data 
@@ -28,9 +29,8 @@ rates$date <- as.Date(rates$date, format = "%Y-%m-%d")
 sapply(rates, class)
 
 ## Add spread to the data frame
-spread <- rates$mortgage30 - rates$treasury10
+rates$spread <- rates$mortgage30 - rates$treasury10
 
-rates$spread <- spread
 head(rates, 10)
 tail(rates, 10)
 
@@ -86,6 +86,24 @@ latest_vals <- long_data %>%
 long_data <- long_data %>% 
   mutate(yield = factor(yield, levels = latest_vals$yield))
 
+# date for annotation
+ds <- rates
+
+pos <- ds %>%
+  summarise(
+    x_mid = min(date) + 0.5 * (max(date) - min(date)),
+    x_40  = min(date) + 0.4 * (max(date) - min(date)),
+    x_70  = min(date) + 0.7 * (max(date) - min(date)),
+    y_90 = max(mortgage30) * 0.9,
+    y_avg = mean(spread, na.rm = TRUE)
+  )
+
+x_mid <- pos %>% pull(x_mid)
+x_text <- pos %>% pull(x_40)
+y_90 <- pos %>% pull(y_90)
+
+
+
 ##historical yields and spread
 long_data %>% 
   filter(date >= as.Date("1971-01-01")) %>% 
@@ -113,8 +131,8 @@ long_data %>%
   #          y = latest_mortgage_30,
   #          label = glue("{latest_mortgage_30}%")) +
   annotate("label",
-           x = (as.Date(initial_date)),
-           y = max_mortgage,
+           x = x_text,
+           y = y_90,
            vjust = 1, hjust = 0,
            label = glue("Spread:\nmean = {mean_spread}%\nsd = {sd}%\nmean + sd = {mean_sd}%\nmean + 2sd = {mean_2sd}%"),
            fontface = "bold") +
