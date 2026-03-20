@@ -102,8 +102,6 @@ x_mid <- pos %>% pull(x_mid)
 x_text <- pos %>% pull(x_40)
 y_90 <- pos %>% pull(y_90)
 
-
-
 ##historical yields and spread
 long_data %>% 
   filter(date >= as.Date("1971-01-01")) %>% 
@@ -193,7 +191,6 @@ avg_mortgage_spread <- avg_spread %>% pull(avg_mortgage_spread) %>% round(3)
 
 avg_hy_spread <- avg_spread %>% pull(avg_hy_spread) %>% round(3)
 
-
 #  pivot_longer(-date, names_to = "assets", values_to = "spread") 
 
 spread_comp <- avg_rates %>% 
@@ -236,7 +233,7 @@ spread_comp %>%
                      values = c("red", "blue")
   ) +
   scale_y_continuous(limits = c(1.5, NA),
-                     breaks = seq(1.5, 4.5, 1),
+                     breaks = seq(1.5, 6.0, 1),
                      labels = label_comma(accuracy = 0.1)) +
   labs(title = "Risk Premium of US 30-Year Mortgage and High-Yield Bonds",
        subtitle = "The BAML High-Yield OAS(Option-Adjusted Spread) already compressed to the Post-GFC low",
