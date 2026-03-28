@@ -99,14 +99,14 @@ ds_10y_30y %>%
            hjust = 0.5, vjust = 0.85) +
   annotate("text",
            x = latest_date,
-           y = (latest_10_y) * 0.965,
+           y = (latest_10_y) * 1.05,
            label = paste0("10-Year Treasury: ", latest_10_y, "%"),
            color = "#0136b2",
            size = 5,
            hjust = 0.85, vjust = 1) +
   annotate("text",
            x = latest_date,
-           y = (latest_mortgage_rate) * 0.975,
+           y = (latest_mortgage_rate) * 1.05,
            label = paste0("30-Year Mortgage: ", latest_mortgage_rate, "%"),
            color = "#f85033",
            size = 5,
