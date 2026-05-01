@@ -236,7 +236,7 @@ spread_comp %>%
                      breaks = seq(1.5, 6.0, 1),
                      labels = label_comma(accuracy = 0.1)) +
   labs(title = "Risk Premium of US 30-Year Mortgage and High-Yield Bonds",
-       subtitle = "The BAML High-Yield OAS(Option-Adjusted Spread) started compressing",
+       subtitle = "The BAML High-Yield OAS(Option-Adjusted Spread) already declined to the pre-Iran conflict level",
        caption = "FRED(Federal Reserve Economic Data), WSJ, by Takayuki Tamura",
        x = NULL, y = NULL) +
   theme(
