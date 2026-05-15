@@ -19,7 +19,7 @@ tail(treasury_10y)
 # treasury_10y <- treasury_10y[-708,]
 
 updates <- tribble(~date, ~long_term_yield,
-                   "2026-04-30", 4.375)
+                   "2026-05-14", 4.489)
 
 updates$date <- as.Date(updates$date)
 
@@ -126,6 +126,45 @@ ds_10y_30y %>%
   
 ggsave("figures/us_30y_10y.png", height = 6, width = 6)  
 
+## Iran war
+ds_10y_30y %>% 
+  na.omit() %>% 
+  filter(date >= "2022-01-01") %>% 
+  ggplot(aes(x = date)) +
+  geom_line(aes(y = long_term_yield, colour = "10-Year Yield"), color = "#0136b2") +
+  geom_line(aes(y = mortgage_rate, colour = "30-Year Mortgage"), color = "#f85033") +
+  geom_vline(xintercept = as.Date("2026-02-28"), linetype = "dashed", colour = "black") +
+  annotate("text",
+           x = as.Date("2026-02-28"),
+           y = 7.75,
+           label = "Iran war\n(2/28/26)", size = 4, colour = "black", fontface = "bold",
+           hjust = 0.5, vjust = 0.85) +
+  annotate("label",
+           x = latest_date,
+           y = (latest_10_y) * 1.125,
+           label = paste0("10-Year Treasury: ", latest_10_y, "%"),
+           color = "#0136b2",
+           size = 5,
+           hjust = 0.85, vjust = 1) +
+  annotate("label",
+           x = latest_date,
+           y = (latest_mortgage_rate) * 1.1,
+           label = paste0("30-Year Mortgage: ", latest_mortgage_rate, "%"),
+           color = "#f85033",
+           size = 5,
+           hjust = 0.85, vjust = 1) +
+  coord_cartesian(clip = "off", expand = TRUE) +
+  scale_y_continuous(limits = c(NA, NA),
+                     labels = label_comma(accuracy = 0.1)) + 
+  labs(title = "10-Year Treasury Yeild and 30-Year Mortgage Rate",
+       caption = "source: FRED, WSJ, by Takayuki Tamura",
+       x = NULL,
+       y = "percentage") +
+  theme(
+    legend.position = "none",
+    panel.background = element_blank(),
+    panel.grid.major.y = element_line(colour = "gray80"),
+    panel.grid.minor.y = element_line(colour = "gray90", linewidth = 0.3, linetype = "dashed"))
 
-
+ggsave("figures/us_30y_10y_iran_war.png", height = 6, width = 6)  
 

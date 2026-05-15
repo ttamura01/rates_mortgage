@@ -247,7 +247,47 @@ spread_comp %>%
   )
 ggsave("figures/us_30y_hi_yield_spread.png", height = 6, width = 6)  
 
-
+## Iran war
+spread_comp %>% 
+  na.omit() %>% 
+  ggplot(aes(x = date, y = spread, colour = assets))+
+  geom_line(show.legend = FALSE) +
+  geom_hline(yintercept = avg_mortgage_spread, color = "red", linetype = "dashed") +
+  geom_hline(yintercept = avg_hy_spread, color = "blue", linetype = "dashed") +
+  geom_vline(xintercept = as.Date("2026-02-28"), linetype = "dashed", colour = "black") +
+  annotate("text",
+           x = as.Date("2026-02-28"),
+           y = 4.5,
+           label = "Iran war\n(2/28/26)", size = 4, colour = "black", fontface = "bold",
+           hjust = 0.5, vjust = 0.85) +
+  annotate("label",
+           # x = as.Date(initial_date),
+           x = x_text,
+           y = avg_hy_spread,
+           label = "High-Yield Spread",
+           hjust = 0) +
+  annotate("label",
+           x = x_text,
+           y = avg_mortgage_spread,
+           label = "30-Year Mortgage Spread",
+           hjust = 0) +
+  scale_color_manual(breaks = c("spread", "high_yield"),
+                     values = c("red", "blue")
+  ) +
+  scale_y_continuous(limits = c(1.5, NA),
+                     breaks = seq(1.5, 6.0, 1),
+                     labels = label_comma(accuracy = 0.1)) +
+  labs(title = "Risk Premium of US 30-Year Mortgage and High-Yield Bonds",
+       subtitle = "The BAML High-Yield OAS(Option-Adjusted Spread) already declined to the pre-Iran conflict level",
+       caption = "FRED(Federal Reserve Economic Data), WSJ, by Takayuki Tamura",
+       x = NULL, y = NULL) +
+  theme(
+    panel.background = element_blank(),
+    plot.title.position = "plot",
+    plot.title = element_textbox_simple(size = 16, margin = margin(b=10, t=5)),
+    plot.subtitle = element_textbox_simple()
+  )
+ggsave("figures/us_30y_hi_yield_spread_iran_war.png", height = 6, width = 6)  
 
 
 ##historical spread with latest data
